@@ -1,42 +1,43 @@
-<?php 
+<?php
 require_once('../classes/Banco.class.php');
 session_start();
 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
-    // Atribuir valores dos inputs às variaveis:
-    $nome = $_POST['nome'];
-    $descricao = $_POST['descricao'];
-    $id_categoria = $_POST['idcategoria'];
-    $estoque = $_POST['estoque'];
-    $preco = $_POST['preco'];
-    $id_usuario = $_SESSION['usuario']['id'];
-    $foto = $_FILES['foto'];
-
-    // Salvar foto na pasta img:
-    $dir = "../img/";
-    move_uploaded_file($foto['tmp_name'], "$dir/".$foto["name"]);
-    
-
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Instanciar obj:
     require_once('../classes/Produto.class.php');
     $prod = new Produto();
 
-    // Atribuir valores ao obj:
-    $prod->nome = $nome;
-    $prod->descricao = $descricao;
-    $prod->id_categoria = $id_categoria;
-    $prod->estoque = $estoque;
-    $prod->preco = $preco;
-    $prod->id_usuario = $id_usuario;
-    $prod->foto = $foto['name'];
+    // Atribuir valores dos inputs ao obj:
+    $prod->nome = $_POST['nome'];
+    $prod->descricao = $_POST['descricao'];
+    $prod->id_categoria = $_POST['idcategoria'];
+    $prod->estoque = $_POST['estoque'];
+    $prod->preco = $_POST['preco'];
+    $prod->id_usuario = $_SESSION['usuario']['id'];
+    
 
-    try{
+    if (is_uploaded_file($_FILES['foto']['tmp_name'])) {
+        $extensao = pathinfo($_FILES['foto']['name'], PATHINFO_EXTENSION);
+        // Atribuir hash.extensão no nome da img:
+        $novo_nome = hash_file('sha256', $_FILES['foto']['tmp_name']);
+        $novo_nome = $novo_nome.".".$extensao;
+
+        // Se usuario não mandar foto, txt "semfoto.jpg" é cadastrado:
+        if(move_uploaded_file($_FILES['foto']['tmp_name'], "../../fotos/" . $novo_nome)){
+            $prod->foto = $novo_nome;
+        }else{
+            $prod->foto = "semfoto.jpg";
+        }   
+    }else{
+        $prod->foto = "semfoto.jpg";
+    }
+
+    try {
         $prod->Cadastrar();
         header("Location: ../painel.php?msg=1");
         exit;
-    }catch(PDOException $e){
+    } catch (PDOException $e) {
         header("Location: ../painel.php?err=1");
         exit;
     }
-    
 }
-?>

@@ -18,7 +18,7 @@ class Produto{
     // Listar tudo:
     public static function ListarTudo(){
         $banco = Banco::conectar();
-        $sql = "SELECT * FROM produtos";
+        $sql = "SELECT * FROM view_produtos";
         $comando = $banco->prepare($sql);
         $comando->execute();
         // "Salvar" o resultado da consulta (tabela) na $resultado
@@ -78,6 +78,22 @@ class Produto{
             // Se der errado, devolve -1:
             return -1;
          }
+    }
+
+    // Editar:
+    public function Editar(){
+        $banco = Banco::conectar();
+ 
+        $sql = "UPDATE produtos SET nome = ?, descricao = ?, id_categoria = ?, estoque = ?, preco = ?,
+        id_usuario = ?, foto = ? WHERE id = ?";
+ 
+        $banco->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $comando = $banco->prepare($sql);
+        $comando->execute(array($this->nome,$this->descricao,$this->id_categoria,$this->estoque,$this->preco,$this->id_usuario,$this->foto,$this->id));
+            Banco::desconectar();
+            // Retornar a qtd de linhas modificadas:
+            return $comando->rowCount();
+           
     }
 }
 

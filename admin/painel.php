@@ -57,7 +57,7 @@ $tabelaCat = $categoria->Listar();
                     <th>Categoria</th>
                     <th>Estoque</th>
                     <th>Preço</th>
-                    <th>ID_Resp</th>
+                    <th>Resp</th>
                     <th>Ações</th>
                 </tr>
             </thead>
@@ -65,14 +65,14 @@ $tabelaCat = $categoria->Listar();
                 <?php foreach ($tabelaProd as $linha) { ?>
                     <tr>
                         <td><?= $linha['id'] ?></td>
-                        <td><img src="img/<?= $linha['foto']; ?>" alt="<?= $linha['nome'] ?>" width="150px" height="150px"></td>
+                        <td><img src="../fotos/<?= $linha['foto']; ?>" alt="<?= $linha['nome'] ?>" width="150px" height="150px"></td>
                         <td><?= $linha['nome'] ?></td>
                         <td><?= $linha['descricao'] ?></td>
-                        <td><?= $linha['id_categoria'] ?></td>
+                        <td><?= $linha['nome_categ'] ?></td>
                         <td><?= $linha['estoque'] ?></td>
                         <td>R$ <?= $linha['preco'] ?></td>
-                        <td><?= $linha['id_usuario'] ?></td>
-                        <td><a href="#">Editar</a>
+                        <td><?= $linha['nome_usu'] ?></td>
+                        <td><a href="editar.php?id=<?=$linha['id']?>">Editar</a>
                             | <a href="actions/apagar_produto.php?id=<?=$linha['id']?>">Excluir</a></td>
                     </tr>
                 <?php } ?>
@@ -128,12 +128,12 @@ $tabelaCat = $categoria->Listar();
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">R$</span>
                                 </div>
-                                <input type="number" class="form-control" id="precoProduto" placeholder="Digite o preço" name="preco">
+                                <input type="number" class="form-control" id="precoProduto" placeholder="Digite o preço" name="preco" step="any">
                             </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                            <button type="submit" class="btn btn-primary">Salvar</button>
+                            <button type="submit" class="btn btn-primary">Cadastrar</button>
                         </div>
                     </form>
                 </div>
