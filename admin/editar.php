@@ -55,7 +55,9 @@ $tabelaCat = $categoria->Listar();
                 </div>
                 <div class="form-group">
                     <label for="fotoProduto">Foto</label>
-                    <input type="file" class="form-control-file" id="fotoProduto" name="foto" value="<?= $tabela[0]['foto'] ?>">
+                    <input type="file" class="form-control-file" id="fotoProduto" name="foto">
+                    <img src="../fotos/<?=$tabela[0]['foto']?>" width="180px" height="180px" alt="<?=$tabela[0]['nome']?>">
+                    <input type="hidden" value="<?= $tabela[0]['foto']?>" name='foto_antiga'>
                 </div>
                 <div class="form-group">
                     <label for="descricaoProduto">Descrição</label>
@@ -83,7 +85,7 @@ $tabelaCat = $categoria->Listar();
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <a class="btn btn-secondary" href="painel.php">Fechar</a>
                     <button type="submit" class="btn btn-primary">Editar</button>
                 </div>
                 <!-- Input invisível com o id do usuário editado -->

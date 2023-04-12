@@ -25,7 +25,7 @@ if(isset($_SESSION['usuario']) && $_SERVER['REQUEST_METHOD'] == 'POST'){
             $p->foto = "semfoto.jpg";
         }   
     }else{
-        $p->foto = "semfoto.jpg";
+        $p->foto = $_POST['foto_antiga'];
     }
 
     $qtd_linhas = $p->Editar();
